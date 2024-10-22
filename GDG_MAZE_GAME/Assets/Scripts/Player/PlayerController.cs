@@ -35,12 +35,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool _canMove = true;
 
-    /// <summary> Movement directions the player can go. Not relative to player rotation. </summary>
-    private enum Direction { Left, Right, Up, Down }
+    /// <summary>
+    /// A reference to the Animation Controller instance on the same object as this
+    /// in order to send the required information across
+    /// -Seb
+    /// </summary>
+    [Header("Animation")]
+    [SerializeField] PlayerAnimationController animController;
+
+    /// <summary> Movement directions the player can go. Not relative to player rotation. {made public for use in PlayerAnimationController.cs -Seb}</summary>
+    public enum Direction { Left, Right, Up, Down }
 
     private void Awake()
     {
         _transform = transform;
+
+        if(animController == null) { Debug.LogError("Animation Controller not found on Player!"); }
     }
 
     void Update()
@@ -53,43 +63,59 @@ public class PlayerController : MonoBehaviour
         // catch movement input
         if (PressedUp())
         {
+            animController.SetFacingDirection(Direction.Up); // Set Direction for the animation controller. One per direction. -Seb
+
             if (IsEmptySpace(Direction.Up))
             {
                 _canMove = false;
+                animController.isMoving = true; // Change to dynamic sprite movement. Turned off in OnComplete() lambda. -Seb
+
                 _transform.DOLocalMoveY(_transform.position.y + _movementAmount, _movementTime)
                     .SetEase(_movementEase)
-                    .OnComplete(() => { _canMove = true; });
+                    .OnComplete(() => { _canMove = true; animController.isMoving = false; });
                 // SoundManager.Instance.Invoke(nameof(SoundManager.Instance.Footsteps), time: _movementTime + _footstepSoundDelayInSeconds);
             }
         }
         else if (PressedDown())
         {
+            animController.SetFacingDirection(Direction.Down);
+
             if (IsEmptySpace(Direction.Down))
             {
                 _canMove = false;
+                animController.isMoving = true;
+
                 _transform.DOLocalMoveY(_transform.position.y - _movementAmount, _movementTime)
                     .SetEase(_movementEase)
-                    .OnComplete(() => { _canMove = true; });
+                    .OnComplete(() => { _canMove = true; animController.isMoving = false; });
             }
         }
         else if (PressedLeft())
         {
+            animController.SetFacingDirection(Direction.Left);
+
             if (IsEmptySpace(Direction.Left))
             {
                 _canMove = false;
+                animController.isMoving = true;
+
                 _transform.DOLocalMoveX(_transform.position.x - _movementAmount, _movementTime)
                     .SetEase(_movementEase)
-                    .OnComplete(() => { _canMove = true; });
+                    .OnComplete(() => { _canMove = true; animController.isMoving = false; });
             }
         }
         else if (PressedRight())
         {
+            animController.SetFacingDirection(Direction.Right);
+
             if (IsEmptySpace(Direction.Right))
             {
                 _canMove = false;
+                animController.isMoving = true;
+
                 _transform.DOLocalMoveX(_transform.position.x + _movementAmount, _movementTime)
                     .SetEase(_movementEase)
-                    .OnComplete(() => { _canMove = true; });
+                    .OnComplete(() => { _canMove = true; animController.isMoving = false; });
             }
         }
     }
@@ -115,28 +141,28 @@ public class PlayerController : MonoBehaviour
         {
             case Direction.Up:
                 Debug.DrawRay(transform.position, Vector3.up, Color.green, debugRayDuration);
-                if (Physics.Raycast(_transform.position, Vector3.forward, maxRayDistance))
+                if (Physics2D.Raycast(_transform.position, Vector3.up, maxRayDistance)) // Had to change to 2D Raycasts for correct interaction with Tilemap Collider. -Seb
                 {
                     return false;
                 }
                 break;
             case Direction.Right:
                 Debug.DrawRay(transform.position, Vector3.right, Color.green, debugRayDuration);
-                if (Physics.Raycast(_transform.position, Vector3.right, maxRayDistance))
+                if (Physics2D.Raycast(_transform.position, Vector3.right, maxRayDistance))
                 {
                     return false;
                 }
                 break;
             case Direction.Down:
                 Debug.DrawRay(transform.position, Vector3.down, Color.green, debugRayDuration);
-                if (Physics.Raycast(_transform.position, Vector3.back, maxRayDistance))
+                if (Physics2D.Raycast(_transform.position, Vector3.down, maxRayDistance))
                 {
                     return false;
                 }
                 break;
             case Direction.Left:
                 Debug.DrawRay(transform.position, Vector3.left, Color.green, debugRayDuration);
-                if (Physics.Raycast(_transform.position, Vector3.left, maxRayDistance))
+                if (Physics2D.Raycast(_transform.position, Vector3.left, maxRayDistance))
                 {
                     return false;
                 }
