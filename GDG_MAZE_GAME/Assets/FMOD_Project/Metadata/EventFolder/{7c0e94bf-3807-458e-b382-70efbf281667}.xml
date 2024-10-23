@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EventFolder" id="{7c0e94bf-3807-458e-b382-70efbf281667}">
+		<property name="name">
+			<value>UIClicks</value>
+		</property>
+		<relationship name="folder">
+			<destination>{dc054313-39f4-487e-ab32-f0e6783cbbd7}</destination>
+		</relationship>
+	</object>
+</objects>
