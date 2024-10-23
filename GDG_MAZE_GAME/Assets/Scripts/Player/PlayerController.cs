@@ -10,6 +10,9 @@ using DG.Tweening;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary> Access to the game pause controller to prevent player from moving while paused. </summary>
+    [SerializeField] PauseMenuController pauseController;
+
     /// <summary> Cached transform micro-optimization. </summary>
     private Transform _transform;
 
@@ -55,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!_canMove)
+        if (!_canMove || pauseController.isGamePaused)
         {
             return;
         }

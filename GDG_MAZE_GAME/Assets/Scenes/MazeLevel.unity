@@ -130289,6 +130289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5b728742b5476542b9b099c1b2f398d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseController: {fileID: 0}
   _movementTime: 0.5
   _movementEase: 4
   _footstepSoundDelayInSeconds: -0.1
