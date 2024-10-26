@@ -18,7 +18,8 @@ public class GameStateManager : MonoBehaviour
     private bool PressedPause() => Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab);
 
     /// <summary> Available Game States. May need to break into individual puzzles but hopefully not. </summary>
-    [System.Serializable] public enum GameStates
+    [System.Serializable]
+    public enum GameStates
     {
         OVERWORLD,      // When the Player is exploring the Maze.
         PUZZLE,         // When the Player opens a Puzzle Minigame
@@ -31,14 +32,14 @@ public class GameStateManager : MonoBehaviour
     // ----
     // GUI Parent Objects
     // ----
-    [SerializeField] GameObject overworldGUI, pauseGUI, doorGUI; // TODO Add other Puzzle Screens to manage GUI activation/deactivation.
-    [SerializeField] Sprite[] totalClueImages = new Sprite[6];    // Need to be in the same order as the Symbols array. Index 0 doesn't matter since that represents Symbol.NONE
+    [SerializeField] GameObject overworldGUI, pauseGUI, doorGUI, slidingPuzzleGUI; // Ensure that all of these are included in DeactivateAllGUIs()
+    [SerializeField] public Sprite[] totalClueImages = new Sprite[6];    // Need to be in the same order as the Symbols array. Index 0 doesn't matter since that represents Symbol.NONE
     [SerializeField] Image[] journalClueImages = new Image[DOOR_ANSWER_LENGTH];
 
-    [Header("Music")]
+    [Header("Audio")]
     // Make sure these are on different objects - things tend to go wrong if one gameobject has more than 1 FMOD event emitter
     [SerializeField] StudioEventEmitter backgroundMusicEmitter;
-    [SerializeField] StudioEventEmitter pauseSnapshot;
+    [SerializeField] StudioEventEmitter pauseSnapshot, puzzlePassEmitter;
 
     // ----
     // Timer Settings
@@ -49,7 +50,8 @@ public class GameStateManager : MonoBehaviour
     // PUZZLE SETUP
     // ----
     /// <summary> This enum is organised by the visual order of the buttons in the door puzzle GUI </summary>
-    [System.Serializable] public enum Symbol
+    [System.Serializable]
+    public enum Symbol
     {
         // Organised top-to-bottom as per Door Puzzle GUI layout.
         NONE,       // 0    DEFAULT VALUE, USED TO CLEAR PLAYER'S INPUT WHEN EXITING DOOR PUZZLE.
@@ -64,31 +66,26 @@ public class GameStateManager : MonoBehaviour
     /// will be able to get readonly access by referencing the GSM and using gameStateManager.doorAnswer
     /// </summary>
     public Symbol[] doorAnswer { get; private set; } = new Symbol[DOOR_ANSWER_LENGTH];
+    [SerializeField] SlidingBlockPuzzleManager slidingBlockManager; // This will have the answer to Clue 1 within it.
+
+    // -----------
+    // METHODS BEGIN
+    // -----------
 
     private void Awake()
     {
         currentGameState = GameStates.OVERWORLD;
 
-        // Generate this run's Door Puzzle. Done in Awake to ensure it's available for puzzle setup in Start()
-        System.Array symbolValues = System.Enum.GetValues(typeof(Symbol)); // extract values from enum format
-        for (int i = 0; i < DOOR_ANSWER_LENGTH; i++)
-        {
-            Symbol answer = (Symbol)symbolValues.GetValue(Random.Range(1, 6)); // get a random Symbol answer and assign to relevant index. Ignores the NONE symbol.
-            doorAnswer[i] = answer;
-        }
-        // TODO Get rid of this before building.
-        Debug.Log("Door Code is " + doorAnswer[0] + " " + doorAnswer[1] + " " + doorAnswer[2]);
+        // catch unassigned managers
+        if (slidingBlockManager == null) { Debug.Log("No Sliding Block Manager assigned to GSM!"); }
+
+        SetUpAllPuzzles();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        gameTimerRemaining = 0; // start at 0 and increment for easier FMOD use
-
-        // TESTING JOURNAL
-        //AddClueToJournal(0);
-        //AddClueToJournal(1);
-        //AddClueToJournal(2);
+        gameTimerRemaining = 0; // start at 0 and increment for easier FMOD use 
     }
 
     // Update is called once per frame
@@ -141,18 +138,17 @@ public class GameStateManager : MonoBehaviour
         switch (currentGameState)
         {
             case GameStates.OVERWORLD:
+                DeactivateAllGUIs();
                 overworldGUI.SetActive(true);
-                pauseGUI.SetActive(false);
-                doorGUI.SetActive(false);
                 pauseSnapshot.Stop();
                 break;
             case GameStates.PUZZLE:
+                DeactivateAllGUIs();
                 pauseSnapshot.Stop();
                 break;
             case GameStates.PAUSED:
-                overworldGUI.SetActive(false);
+                DeactivateAllGUIs();
                 pauseGUI.SetActive(true);
-                doorGUI.SetActive(false);
                 pauseSnapshot.Play();
                 break;
             case GameStates.GAMEOVER_WIN:
@@ -168,23 +164,98 @@ public class GameStateManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Update the player's journal GUI with the clue gained from solving a puzzle. 
+    /// Helper function to quickly disable all GUI overlays. Ensure this is up-to-date with the list of GUI GameObjects.
+    /// </summary>
+    private void DeactivateAllGUIs()
+    {
+        overworldGUI.SetActive(false);
+        pauseGUI.SetActive(false);
+        doorGUI.SetActive(false);
+        slidingPuzzleGUI.SetActive(false);
+    }
+
+    /// <summary>
+    /// Universal Puzzle Setup. Assigns correct images, randomises the door answer, etc.
+    /// </summary>
+    private void SetUpAllPuzzles()
+    {
+        // Step 1: Randomise the Door Code.
+        System.Array symbolValues = System.Enum.GetValues(typeof(Symbol)); // extract values from enum format
+        for (int i = 0; i < DOOR_ANSWER_LENGTH; i++)
+        {
+            Symbol answer = (Symbol)symbolValues.GetValue(Random.Range(1, 6)); // get a random Symbol answer and assign to relevant index. Ignores the NONE symbol.
+            doorAnswer[i] = answer;
+        }
+        // TODO Get rid of this before building.
+        Debug.Log("Door Code is " + doorAnswer[0] + " " + doorAnswer[1] + " " + doorAnswer[2]);
+
+        // Step 2: Set up individual Puzzles.
+        // ---
+        // Clue 1: Sliding Block
+        // Moved to SlidingBlockPuzzleManager.Start();
+        //Symbol slidingBlockSymbol = doorAnswer[0];
+        //int symbolIndex = (int)slidingBlockSymbol;
+        //slidingBlockManager.ChangePuzzleImage(totalClueImages[symbolIndex]);
+
+        // Clue 2: Spinning Circles puzzle.
+        // TODO
+
+        // Clue 3: Search the Dark puzzle
+        // TODO
+    }
+
+    /// <summary>
+    /// Update the player's journal GUI with the clue gained from solving a puzzle.
+    /// Clue 1 (i.e. _clueIndex = 0) is always given by the Sliding Block Puzzle.
+    /// Clue 2 is always given by the Circles puzzle.
+    /// Clue 3 is always given by the Searching puzzle.
     /// </summary>
     /// <param name="_clueIndex">Target Index in clueImages[]</param>
     public void AddClueToJournal(int _clueIndex)
     {
-        // Interrogate doorAnswer[clueIndex] to extract Symbol as Integer value
-        // Extract corresponding sprite out of totalClueImages array
-        // Assign that sprite into the Pause Menu GUI
         Symbol targetSymbol = doorAnswer[_clueIndex];
         int symbolIndex = (int)targetSymbol;
         journalClueImages[_clueIndex].sprite = totalClueImages[symbolIndex];
         journalClueImages[_clueIndex].color = new Color(1, 1, 1, 1);
+
+        // Play a sound effect so the player knows they passed.
+        puzzlePassEmitter.Play();
     }
 
-    public void StartDoorPuzzle()
+    /// <summary>
+    /// Start up a Puzzle Screen on the GUI.
+    /// </summary>
+    /// <param name="_puzzleIndex"> Which puzzle is being started: 
+    /// 0 - Sliding Block
+    /// 1 - Circles
+    /// 2 - Search
+    /// 3 - Door
+    /// </param>
+    public void LaunchPuzzleGUI(int _puzzleIndex)
     {
         SetGameState(GameStates.PUZZLE);
-        doorGUI.SetActive(true);
+
+        switch (_puzzleIndex)
+        {
+            case 0:
+                slidingPuzzleGUI.SetActive(true);
+                break;
+            case 1:
+                Debug.Log("TODO: Open Circles Puzzle");
+                AddClueToJournal(1);
+                SetGameState(GameStates.OVERWORLD);
+                break;
+            case 2:
+                Debug.Log("TODO: Open Search Puzzle");
+                AddClueToJournal(2);
+                SetGameState(GameStates.OVERWORLD);
+                break;
+            case 3:
+                doorGUI.SetActive(true);
+                break;
+            default:
+                Debug.Log("Trying to launch a puzzle with incompatible index.");
+                break;
+        }
     }
 }

@@ -16,6 +16,8 @@ using DG.Tweening;
 /// </summary>
 public class SlidingBlockPuzzleManager : MonoBehaviour
 {
+    [SerializeField] GameStateManager gameStateManager;
+
     /// <summary>
     /// Represents the puzzle in an 2D array form. Final block is not shown.
     /// </summary>
@@ -92,6 +94,11 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
 
     private void Start()
     {
+        if(gameStateManager == null)
+        {
+            Debug.Log("No Game State Manager assigned to 15-Tile Puzzle! SlidingBlockPuzzle/Scripts/SlidingBlockPuzzleManager object.");
+        }
+
         SetupBlocks();
         BeginGame();
     }
@@ -172,6 +179,14 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
 
     private void SetupBlocks()
     {
+        // Assign correct image first -Seb
+        
+        GameStateManager.Symbol slidingBlockSymbol = gameStateManager.doorAnswer[0];
+        int symbolIndex = (int)slidingBlockSymbol;
+        Sprite answerSprite = gameStateManager.totalClueImages[symbolIndex];
+        Debug.LogFormat("Setting {0} as Sliding Puzzle Sprite", answerSprite.name);
+
+        // Then continue Setup
         blockPadding = blocksParent.GetComponent<GridLayoutGroup>().spacing.x;
         blocksParent.GetComponent<GridLayoutGroup>().enabled = false;
 
@@ -190,6 +205,9 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
                 blocks[y, x] = tileNum;
                 // Material Property Blocks don't work on UI elements so doing
                 // this the hacky way. Could be done outside of play mode.
+
+                t.GetComponent<Image>().sprite = answerSprite; // GET RID OF THIS TO RETURN TO DEFAULT IMAGE -Seb
+
                 Material mat = Instantiate(t.GetComponent<Image>().material);
                 mat.SetFloat("_Row", (gridSize - 1) - (float)y);
                 mat.SetFloat("_Column", (float)x);
@@ -295,13 +313,7 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     private void AwardClue()
     {
         print("TODO: CLUE AWARDED!");
-
-        // TODO
-        // adding clue to journal and telling player about it logic here,
-        // also prompt player to quit the minigame or do it automatically
-
-
-
+        gameStateManager.AddClueToJournal(0);
     }
 
     [ContextMenu("Test puzzle sprite swap")]
@@ -316,9 +328,12 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     /// <param name="sprite"> Image to change the puzzle image to. </param>
     public void ChangePuzzleImage(Sprite sprite)
     {
+        Debug.Log("Changing Sliding Block Image to " + sprite.name);
+
         for (int i = 0; i < blockTransforms.Count; i++)
         {
             blockTransforms[i].GetComponent<Image>().sprite = sprite;
+            //blockTransforms[i].GetComponent<Material>().mainTexture = sprite.texture;
         }
     }
 }

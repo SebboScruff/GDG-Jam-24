@@ -148,17 +148,21 @@ public class PlayerController : MonoBehaviour
             {
                 case "Door":
                     Debug.Log("Starting Door Puzzle...");
-                    gameStateManager.StartDoorPuzzle();
+                    gameStateManager.LaunchPuzzleGUI(3);
                     break;
                 case "15-Tile":
                     Debug.Log("Starting 15-Tile Puzzle...");
+                    gameStateManager.LaunchPuzzleGUI(0);
                     break;
                 case "CirclePuzzle":
                     Debug.Log("Starting Circle Puzzle...");
+                    gameStateManager.LaunchPuzzleGUI(1);
                     break;
                 case "SearchPuzzle":
                     Debug.Log("Starting Search Puzzle...");
+                    gameStateManager.LaunchPuzzleGUI(2);
                     break;
+
                 case "Untagged":
                     Debug.Log("Interacting with untagged tile! Make sure tiles are correctly tagged.");
                     break;
