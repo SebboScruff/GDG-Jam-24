@@ -11,7 +11,7 @@ using DG.Tweening;
 public class PlayerController : MonoBehaviour
 {
     /// <summary> Access to the game pause controller to prevent player from moving while paused. </summary>
-    [SerializeField] PauseMenuController pauseController;
+    [SerializeField] GameStateManager gameManager;
 
     /// <summary> Cached transform micro-optimization. </summary>
     private Transform _transform;
@@ -24,6 +24,13 @@ public class PlayerController : MonoBehaviour
     private float _movementAmount = 1f;
     [SerializeField]
     private Ease _movementEase = Ease.InOutSine;
+
+    [Header("Interactible Tiles")]
+    [SerializeField] LayerMask interactibleTileLayers;
+    [SerializeField] Direction currentFacingDir;
+    [SerializeField] bool canInteract = false; // Can the player interact with the tile directly in front of them?
+    [SerializeField] GameObject currentFacingTile; // Which interactible tile is the player currently facing? TODO Eventually change this to puzzle class rather than gameobject?
+    public UnityEngine.UI.Image interactButtonPrompt; // Visual aid to let players know when they can interact with a tile.
 
     /// <summary>
     /// After movement has happened how long to wait before playing footstep 
@@ -58,15 +65,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!_canMove || pauseController.isGamePaused)
+        if (!_canMove || gameManager.currentGameState != GameStateManager.GameStates.OVERWORLD)
         {
             return;
         }
 
+        #region Input Check: Movement
         // catch movement input
         if (PressedUp())
         {
             animController.SetFacingDirection(Direction.Up); // Set Direction for the animation controller. One per direction. -Seb
+            currentFacingDir = Direction.Up;
 
             if (IsEmptySpace(Direction.Up))
             {
@@ -82,6 +91,7 @@ public class PlayerController : MonoBehaviour
         else if (PressedDown())
         {
             animController.SetFacingDirection(Direction.Down);
+            currentFacingDir = Direction.Down;
 
             if (IsEmptySpace(Direction.Down))
             {
@@ -96,6 +106,7 @@ public class PlayerController : MonoBehaviour
         else if (PressedLeft())
         {
             animController.SetFacingDirection(Direction.Left);
+            currentFacingDir = Direction.Left;
 
             if (IsEmptySpace(Direction.Left))
             {
@@ -110,6 +121,7 @@ public class PlayerController : MonoBehaviour
         else if (PressedRight())
         {
             animController.SetFacingDirection(Direction.Right);
+            currentFacingDir = Direction.Right;
 
             if (IsEmptySpace(Direction.Right))
             {
@@ -121,6 +133,17 @@ public class PlayerController : MonoBehaviour
                     .OnComplete(() => { _canMove = true; animController.isMoving = false; });
             }
         }
+        #endregion
+
+        #region Input Check: Puzzle Interaction
+        canInteract = IsNextSpaceInteractible();
+        // TODO Toggle on GUI stuff here: button prompt to tell players they can interact.
+        if(canInteract && PressedInteract())
+        {
+            // Open up a puzzle screen here!
+            Debug.Log("Interacting with " + currentFacingTile.name);
+        }
+        #endregion
     }
 
     private bool PressedUp() => Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Keypad8) || Input.GetKey(KeyCode.UpArrow);
@@ -130,6 +153,8 @@ public class PlayerController : MonoBehaviour
     private bool PressedLeft() => Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.LeftArrow);
 
     private bool PressedRight() => Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.RightArrow);
+
+    private bool PressedInteract() => Input.GetKeyDown(KeyCode.E); // other hotkeys here if we think of some.
 
     /// <summary>
     /// Checks if there is empty space for the player to move to.
@@ -172,5 +197,49 @@ public class PlayerController : MonoBehaviour
                 break;
         }
         return true;
+    }
+
+    /// <summary>
+    /// Raycast check in the player's current facing direction to see if the tile
+    /// immediately in front of them is interactible (Puzzle, Door, Etc) or not.
+    /// </summary>
+    /// <returns>True if next tile in player's facing direction is interactible. False otherwise.</returns>
+    private bool IsNextSpaceInteractible()
+    {
+        var maxRayDistance = _movementAmount * 1.1f;
+
+        Vector3 checkDir = Vector3.zero;
+        switch (currentFacingDir)
+        {
+            case Direction.Left:
+                checkDir = Vector3.left;
+                break;
+            case Direction.Right:
+                checkDir = Vector3.right;
+                break;
+            case Direction.Up:
+                checkDir = Vector3.up;
+                break;
+            case Direction.Down:
+                checkDir = Vector3.down;
+                break;
+        }
+        RaycastHit2D hitTile = Physics2D.Raycast(_transform.position, checkDir, maxRayDistance, interactibleTileLayers);
+
+        Color debugRayColor = hitTile ? Color.green : Color.red;
+        Debug.DrawRay(transform.position, checkDir, debugRayColor);
+
+        if (hitTile)
+        {
+            currentFacingTile = hitTile.transform.gameObject;
+            interactButtonPrompt.enabled = true;
+            return true;
+        }
+        else
+        {
+            currentFacingTile = null;
+            interactButtonPrompt.enabled = false;
+            return false;
+        }
     }
 }
