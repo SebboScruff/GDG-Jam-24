@@ -41,18 +41,22 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
 
     /// <summary> Is both the delay and duration of pieces that are moved during the initial shuffle. </summary>
     [Header("Starting Shuffle Options")]
-    private float shuffleMoveDelay = 0.1f;
+    [SerializeField]
+    private float shuffleMoveDelay = 0.2f;
     /// <summary> How many times to shuffle the puzzle when it starts. </summary>
+    [SerializeField]
     private int shuffleMovesAmount = 20;
     /// <summary>
     /// What was the last grid position that was clicked programmatically 
     /// during starting shuffle. Prevents moving the same piece back and forth.
     /// </summary>
+    [SerializeField]
     private int[] lastMovedShufflePosition = { -1, -1 };
     /// <summary>
     /// What was the last tile index that was clicked programmatically 
     /// during starting shuffle.Prevents moving the same piece back and forth.
     /// </summary>
+    [SerializeField]
     private int lastMovedShuffleTileIndex = -1;
 
 
@@ -85,7 +89,7 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     {
         for (int i = 0; i < shuffleMovesAmount; i++)
         {
-            Invoke(nameof(ShuffleNearestUnvisited), i * shuffleMoveDelay);
+            Invoke(nameof(ShuffleNearestUnvisited), i * shuffleMoveDelay * 1.1f);
         }
     }
 
@@ -139,9 +143,15 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
         Vector3 emptyPos = blockTransforms[15].position;
         Vector3 tilePos = blockTransforms[index].position;
 
+        // update grid representation
+        blocks[emptyRow, emptyColumn] = index;
+        blocks[tileGridPos[0], tileGridPos[1]] = 15;
+
+        // move tiles, one instantly and one with delay
         blockTransforms[index].DOMove(emptyPos, speed);
         blockTransforms[15].position = tilePos;
 
+        // update empty position to be used later for checks
         emptyXY = tileGridPos;
         emptyRow = emptyXY[0];
         emptyColumn = emptyXY[1];
@@ -160,49 +170,24 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
         {
             for (int x = 0; x < gridSize; x++)
             {
-                var t = blocksParent.GetChild(gridSize * y + x);
+                var tileNum = gridSize * y + x;
+                var t = blocksParent.GetChild(tileNum);
                 blockTransforms.Add(t);
-                t.name = $"{gridSize * y + x}";
-                blocks[y, x] = gridSize * y + x;
+                t.name = $"{tileNum}";
+                blocks[y, x] = tileNum;
                 // Material Property Blocks don't work on UI elements so doing
                 // this the hacky way. Could be done outside of play mode.
                 Material mat = Instantiate(t.GetComponent<Image>().material);
                 mat.SetFloat("_Row", (gridSize - 1) - (float)y);
                 mat.SetFloat("_Column", (float)x);
                 t.GetComponent<Image>().material = mat;
+
+                var b = t.GetComponent<Button>();
+                b.onClick.AddListener(() => MoveBlockToNearbyEmpty(tileNum));
             }
         }
 
         blocksParent.GetChild(15).gameObject.SetActive(false);
-
-        //print(string.Join(" ", blocks.Cast<int>()));
-        // random shuffle, doesn't work
-        //var shuffleAmt = 10;
-        //for (int i = 0; i < shuffleAmt; i++)
-        //{
-
-        //    var target = new Vector2Int(r(), r()); //blocks[r(), r()];
-        //    var destination = new Vector2Int(r(), r());
-        //    if (target.Equals(destination))
-        //    {
-        //        continue;
-        //    }
-
-        //    // position change in the model representation of the game state
-        //    var targetCopy = blocks[target.x, target.y];
-        //    var initialTargetPosition = blockTransforms[blocks[target.x, target.y]].position;
-        //    blocks[target.x, target.y] = blocks[destination.x, destination.y];
-        //    blocks[destination.x, destination.y] = targetCopy;
-
-        //    // real position change between blocks
-        //    // target -> destination, destination -> targetCopy
-        //    blockTransforms[blocks[target.x, target.y]].position = blockTransforms[blocks[destination.x, destination.y]].position;
-        //    blockTransforms[blocks[destination.x, destination.y]].position = initialTargetPosition;
-        //}
-        //// Generates random number inside grid
-        //int r() => Random.Range(0, gridSize);
-
-        //print(string.Join(" ", blocks.Cast<int>()));
     }
 
     /// <summary>
@@ -212,5 +197,51 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     private void MoveBlockToNearbyEmpty(int index)
     {
         // todo early return if too far
+        print("trying to move tile " + index);
+
+        var clickedTilePos = new int[] { -1, -1 };
+        // figure out which gridPos we're in
+        for (int y = 0; y < gridSize; y++)
+        {
+            for (int x = 0; x < gridSize; x++)
+            {
+                if (blocks[y, x] == index)
+                {
+                    clickedTilePos[0] = y;
+                    clickedTilePos[1] = x;
+                    break;
+                }
+            }
+        }
+
+        // for readability
+        var column = 1;
+        var row = 0;
+
+        bool shouldMoveTile = false;
+
+        // find nearby empty to switch positions with
+        // brute force to see if it's any of the 4 blocks
+        if (clickedTilePos[row] - 1 == emptyRow && clickedTilePos[column] == emptyColumn) // Empty is above?
+        {
+            shouldMoveTile = true;
+        }
+        else if (clickedTilePos[row] + 1 == emptyRow && clickedTilePos[column] == emptyColumn) // empty is right below
+        {
+            shouldMoveTile = true;
+        }
+        else if (clickedTilePos[column] - 1 == emptyColumn && clickedTilePos[row] == emptyRow) // empty on left side
+        {
+            shouldMoveTile = true;
+        }
+        else if (clickedTilePos[column] + 1 == emptyColumn && clickedTilePos[row] == emptyRow) // empty on right side
+        {
+            shouldMoveTile = true;
+        }
+
+        if (shouldMoveTile)
+        {
+            MoveTile(index, clickedTilePos, tileMovementDuration);
+        }
     }
 }
