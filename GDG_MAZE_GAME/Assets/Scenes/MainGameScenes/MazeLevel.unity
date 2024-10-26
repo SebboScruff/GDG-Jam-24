@@ -1191,6 +1191,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &611202758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8429197417560320389, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
+  m_PrefabInstance: {fileID: 618360469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &618360469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1199,98 +1204,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 373000954251939976, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 957751132599261518, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 1244922834551103728, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1538414901099211174, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770342663144779174, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 2149166436870605361, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 2283416014458853410, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
     - target: {fileID: 2452651372034486795, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
       propertyPath: gameStateManager
       value: 
       objectReference: {fileID: 814829163}
-    - target: {fileID: 2884412705211819820, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 3076337968248397583, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
     - target: {fileID: 3095194745450814651, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
       propertyPath: m_Name
       value: MasterGUI
       objectReference: {fileID: 0}
-    - target: {fileID: 3386733381296535263, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 3389458760742745071, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 3491929107425368268, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 4602938112534439926, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 4669317427712120484, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 4673462004351281973, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 4756881439365584185, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 4922862601370308874, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5266002098912108772, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5276207297855825359, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 5286919736750450896, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 5334760615354910208, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
     - target: {fileID: 5962822702873422474, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1379,53 +1300,9 @@ PrefabInstance:
       propertyPath: gameStateManager
       value: 
       objectReference: {fileID: 814829163}
-    - target: {fileID: 6550992178717864048, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 6704627151839687033, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 6767012606341960489, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
+    - target: {fileID: 7577084947680296819, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6786757312140040068, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 7770479175541022086, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 7804237024990065729, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 7826580917294889098, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 7967472941673950188, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 8444011776398141291, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
-      objectReference: {fileID: 0}
-    - target: {fileID: 8719376284324315296, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 8735922080983318824, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11a6440cbce150f44ad91be56f3c7d7e, type: 3}
-    - target: {fileID: 8853313946139275425, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_Name
-      value: slidingTile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1580,6 +1457,16 @@ Tilemap:
   m_GameObject: {fileID: 632915527}
   m_Enabled: 1
   m_Tiles:
+  - first: {x: -2, y: -4, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 0
+      m_TileSpriteIndex: 7
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 35, y: 81, z: 0}
     second:
       serializedVersion: 2
@@ -1592,7 +1479,7 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 9283bd10f28c1b64fac40917c92a17c2, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -1623,10 +1510,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 642111404, guid: 15d944591dccd35438b0cd82e2ea7a7c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data:
       e00: 1
       e01: 0
@@ -1645,7 +1532,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -94989,7 +94876,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 0.16569467, g: 0.084158055, b: 0.2264151, a: 1}
-  m_Intensity: 0.18
+  m_Intensity: 0.03
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: b5fccd2cabe4da49f196d3fc25b0fe79
@@ -131069,6 +130956,7 @@ MonoBehaviour:
   canInteract: 0
   currentFacingTile: {fileID: 0}
   interactButtonPrompt: {fileID: 1622252839}
+  guiMovePrompt: {fileID: 611202758}
   _footstepSoundDelayInSeconds: -0.1
   _canMove: 1
   animController: {fileID: 1562399157}
@@ -131758,6 +131646,11 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &2050310421 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8604247659810797462, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
+  m_PrefabInstance: {fileID: 618360469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2629829856533313592
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131826,6 +131719,10 @@ PrefabInstance:
       propertyPath: overworldGUI
       value: 
       objectReference: {fileID: 618360472}
+    - target: {fileID: 5852541325690893722, guid: e676f9f2dfd69c04d9751b8200817b60, type: 3}
+      propertyPath: guiJournalPrompt
+      value: 
+      objectReference: {fileID: 2050310421}
     - target: {fileID: 5852541325690893722, guid: e676f9f2dfd69c04d9751b8200817b60, type: 3}
       propertyPath: slidingPuzzleGUI
       value: 

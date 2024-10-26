@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject currentFacingTile; // Which interactible tile is the player currently facing? TODO Eventually change this to puzzle class rather than gameobject?
     public UnityEngine.UI.Image interactButtonPrompt; // Visual aid to let players know when they can interact with a tile.
 
+    [SerializeField] GameObject guiMovePrompt;
+
     /// <summary>
     /// After movement has happened how long to wait before playing footstep 
     /// sound. Negative number means that playing sound is started before 
@@ -76,6 +78,8 @@ public class PlayerController : MonoBehaviour
         // catch movement input
         if (PressedUp())
         {
+            guiMovePrompt.SetActive(false); // Basically, the first time the player moves up, the tutorial visual will disappear.
+
             animController.SetFacingDirection(Direction.Up); // Set Direction for the animation controller. One per direction. -Seb
             currentFacingDir = Direction.Up;
 

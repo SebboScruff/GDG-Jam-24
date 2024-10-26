@@ -314,6 +314,7 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     {
         print("TODO: CLUE AWARDED!");
         gameStateManager.AddClueToJournal(0);
+        gameStateManager.SetGameState(GameStateManager.GameStates.OVERWORLD);
     }
 
     [ContextMenu("Test puzzle sprite swap")]
