@@ -657,9 +657,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eea92942d805d24197cf7a64e498c6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 0}
+  startButton: {fileID: 1198203979}
   aboutButton: {fileID: 0}
-  quitButton: {fileID: 0}
+  quitButton: {fileID: 1717640967}
   aboutBackButton: {fileID: 0}
   aboutParentObj: {fileID: 0}
   mainParentObj: {fileID: 0}
