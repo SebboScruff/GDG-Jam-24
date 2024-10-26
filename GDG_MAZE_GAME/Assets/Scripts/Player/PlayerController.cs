@@ -11,7 +11,7 @@ using DG.Tweening;
 public class PlayerController : MonoBehaviour
 {
     /// <summary> Access to the game pause controller to prevent player from moving while paused. </summary>
-    [SerializeField] GameStateManager gameManager;
+    [SerializeField] GameStateManager gameStateManager;
 
     /// <summary> Cached transform micro-optimization. </summary>
     private Transform _transform;
@@ -65,10 +65,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!_canMove || gameManager.currentGameState != GameStateManager.GameStates.OVERWORLD)
+        if (!_canMove || gameStateManager.currentGameState != GameStateManager.GameStates.OVERWORLD)
         {
             return;
         }
+        // Check the run toggle to adjust movement speed.
+        _movementTime = PressedRun() ? 0.25f : 0.5f;
 
         #region Input Check: Movement
         // catch movement input
@@ -140,8 +142,30 @@ public class PlayerController : MonoBehaviour
         // TODO Toggle on GUI stuff here: button prompt to tell players they can interact.
         if(canInteract && PressedInteract())
         {
-            // Open up a puzzle screen here!
-            Debug.Log("Interacting with " + currentFacingTile.name);
+            // Open up the corresponding puzzle screen! 
+            // This could definitely be optimised past being a string-based switch but its a jam project so we're allowed to cut corners :)
+            switch (currentFacingTile.tag)
+            {
+                case "Door":
+                    Debug.Log("Starting Door Puzzle...");
+                    gameStateManager.StartDoorPuzzle();
+                    break;
+                case "15-Tile":
+                    Debug.Log("Starting 15-Tile Puzzle...");
+                    break;
+                case "CirclePuzzle":
+                    Debug.Log("Starting Circle Puzzle...");
+                    break;
+                case "SearchPuzzle":
+                    Debug.Log("Starting Search Puzzle...");
+                    break;
+                case "Untagged":
+                    Debug.Log("Interacting with untagged tile! Make sure tiles are correctly tagged.");
+                    break;
+                default:
+                    Debug.Log("Tried interacting with tile, tag unrecognised. Check cases in PlayerController.cs?");
+                    break;
+            }
         }
         #endregion
     }
@@ -153,6 +177,7 @@ public class PlayerController : MonoBehaviour
     private bool PressedLeft() => Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.LeftArrow);
 
     private bool PressedRight() => Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.RightArrow);
+    private bool PressedRun() => Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift); // Shift Toggle for sprinting.
 
     private bool PressedInteract() => Input.GetKeyDown(KeyCode.E); // other hotkeys here if we think of some.
 
