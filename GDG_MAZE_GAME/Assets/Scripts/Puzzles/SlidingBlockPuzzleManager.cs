@@ -86,6 +86,10 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     /// <summary> What column was last shuffled. </summary>
     private int lastShuffledColumn = -1;
 
+    [Header("Testing")]
+    [SerializeField]
+    private Sprite spriteSwapTestSprite;
+
     private void Start()
     {
         SetupBlocks();
@@ -298,5 +302,23 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
 
 
 
+    }
+
+    [ContextMenu("Test puzzle sprite swap")]
+    private void TestSpriteSwap()
+    {
+        ChangePuzzleImage(spriteSwapTestSprite);
+    }
+
+    /// <summary>
+    /// Can be called during runtime to change the image of the puzzle.
+    /// </summary>
+    /// <param name="sprite"> Image to change the puzzle image to. </param>
+    public void ChangePuzzleImage(Sprite sprite)
+    {
+        for (int i = 0; i < blockTransforms.Count; i++)
+        {
+            blockTransforms[i].GetComponent<Image>().sprite = sprite;
+        }
     }
 }
