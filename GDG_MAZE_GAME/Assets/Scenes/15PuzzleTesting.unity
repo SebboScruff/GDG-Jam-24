@@ -2828,6 +2828,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -73.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7051347896113529910, guid: a7697f5cf4f53aa4ebd29c30a063f789, type: 3}
+      propertyPath: shuffleMoveDelay
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7996952379086991862, guid: a7697f5cf4f53aa4ebd29c30a063f789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

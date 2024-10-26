@@ -28,7 +28,13 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     private Dictionary<int, int[]> blockPositions;
 
     [SerializeField]
+    [Range(0.5f, 1f)]
     private float tileMovementDuration = 0.4f;
+    /// <summary>
+    /// How many percentage of tiles need to be in order for the clue to be awarded.
+    /// Each tile represents for example 1/16 = 6.25 percent.
+    /// </summary>
+    private float requiredCompletionPercentage = 0.8f;
 
     [Header("Component References")]
     [SerializeField]
@@ -68,6 +74,7 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     private int emptyColumn = 3;
     /// <summary> Where the empty piece is in the grid. </summary>
     private int[] emptyXY = { -1, -1 };
+    private int[] prevEmptyXY = { -1, -1 };
     /// <summary>
     /// If isMovingAllowed is false the tiles are unresponsive when clicked. 
     /// This is false during starting shuffle and when pieces are moving.
@@ -119,14 +126,15 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
         var randResult = new int[] { };
         do
         {
-            randResult = validSlots[Random.Range(0, validSlots.Count)];
+            randResult = validSlots[UnityEngine.Random.Range(0, validSlots.Count)];
             whileCount++;
             if (whileCount == 100)
             {
+                print("infinite loop");
                 break;
             }
         }
-        while (randResult.Equals(emptyXY));
+        while (randResult[0] == prevEmptyXY[0] && randResult[1] == prevEmptyXY[1]);
 
         // Update new empty tile position values
         //emptyXY = (int[])randResult.Clone();
@@ -152,6 +160,7 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
         blockTransforms[15].position = tilePos;
 
         // update empty position to be used later for checks
+        prevEmptyXY = emptyXY;
         emptyXY = tileGridPos;
         emptyRow = emptyXY[0];
         emptyColumn = emptyXY[1];
@@ -191,9 +200,9 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Button command, basically OnTileInteracted, for gameplay shuffling.
+    /// Button command, basically OnTileInteracted, for gameplay tile moving..
     /// </summary>
-    /// <param name="index">What block to move.</param>
+    /// <param name="index">What block to move. Same as block name.</param>
     private void MoveBlockToNearbyEmpty(int index)
     {
         // todo early return if too far
@@ -242,6 +251,52 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
         if (shouldMoveTile)
         {
             MoveTile(index, clickedTilePos, tileMovementDuration);
+            // since this is a player initiated move, check for completion so that the clue can be added to journal
+            if (CompletionPercentage() >= requiredCompletionPercentage)
+            {
+                AwardClue();
+            }
         }
+    }
+
+    /// <summary>
+    /// Completion percentage is calculated based on tiles in order in blocks[,].
+    /// </summary>
+    /// <returns> In order tiles divided by total number of tiles. </returns>
+    private float CompletionPercentage()
+    {
+        // how many tiles the puzzle has, 
+        var totalNumbers = gridSize * gridSize;
+        //
+        var tilesInOrderCounter = 0;
+        // previous number
+        var prevNum = -1;
+
+        for (int y = 0; y < gridSize; y++)
+        {
+            for (int x = 0; x < gridSize; x++)
+            {
+                if (blocks[y, x] - 1 == prevNum)
+                {
+                    tilesInOrderCounter++;
+                }
+                prevNum = blocks[y, x];
+            }
+        }
+
+        print("Completion %: " + (tilesInOrderCounter / (float)totalNumbers) + " Required: " + requiredCompletionPercentage);
+        return tilesInOrderCounter / (float)totalNumbers;
+    }
+
+    private void AwardClue()
+    {
+        print("TODO: CLUE AWARDED!");
+
+        // TODO
+        // adding clue to journal and telling player about it logic here,
+        // also prompt player to quit the minigame or do it automatically
+
+
+
     }
 }
