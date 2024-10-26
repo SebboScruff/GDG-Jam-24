@@ -1212,10 +1212,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MasterGUI
       objectReference: {fileID: 0}
-    - target: {fileID: 3276815152398824627, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5962822702873422474, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1329,6 +1325,28 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6767012606341960489, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
   m_PrefabInstance: {fileID: 618360469}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &618360474 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6585961254986029666, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
+  m_PrefabInstance: {fileID: 618360469}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &618360475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3045076616592066571, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
+  m_PrefabInstance: {fileID: 618360469}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &632915527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,16 +1475,6 @@ Tilemap:
   m_GameObject: {fileID: 632915527}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: -2, y: -4, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 7
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 35, y: 81, z: 0}
     second:
       serializedVersion: 2
@@ -1479,7 +1487,7 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 9283bd10f28c1b64fac40917c92a17c2, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -1510,10 +1518,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 642111404, guid: 15d944591dccd35438b0cd82e2ea7a7c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data:
       e00: 1
       e01: 0
@@ -1532,7 +1540,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -95396,16 +95404,6 @@ Tilemap:
   m_GameObject: {fileID: 1350131957}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: -1, y: -5, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 7
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 32, y: -1, z: 0}
     second:
       serializedVersion: 2
@@ -95418,7 +95416,7 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 9283bd10f28c1b64fac40917c92a17c2, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -95449,10 +95447,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 642111404, guid: 15d944591dccd35438b0cd82e2ea7a7c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data:
       e00: 1
       e01: 0
@@ -95471,7 +95469,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -131766,6 +131764,14 @@ PrefabInstance:
       propertyPath: journalClueImages.Array.data[2]
       value: 
       objectReference: {fileID: 539722348}
+    - target: {fileID: 5852541325690893722, guid: e676f9f2dfd69c04d9751b8200817b60, type: 3}
+      propertyPath: puzzleExitButtons.Array.data[0]
+      value: 
+      objectReference: {fileID: 618360475}
+    - target: {fileID: 5852541325690893722, guid: e676f9f2dfd69c04d9751b8200817b60, type: 3}
+      propertyPath: puzzleExitButtons.Array.data[1]
+      value: 
+      objectReference: {fileID: 618360474}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

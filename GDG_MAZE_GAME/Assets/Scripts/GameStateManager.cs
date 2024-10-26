@@ -35,7 +35,8 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] GameObject overworldGUI, pauseGUI, doorGUI, slidingPuzzleGUI; // Ensure that all of these are included in DeactivateAllGUIs()
     [SerializeField] public Sprite[] totalClueImages = new Sprite[6];    // Need to be in the same order as the Symbols array. Index 0 doesn't matter since that represents Symbol.NONE
     [SerializeField] Image[] journalClueImages = new Image[DOOR_ANSWER_LENGTH];
-    [SerializeField] GameObject guiJournalPrompt, guiNewCluePrompt;
+    [SerializeField] GameObject guiJournalPrompt;
+    [SerializeField] Button[] puzzleExitButtons = new Button[2];
 
     [Header("Audio")]
     // Make sure these are on different objects - things tend to go wrong if one gameobject has more than 1 FMOD event emitter
@@ -79,6 +80,12 @@ public class GameStateManager : MonoBehaviour
 
         // catch unassigned managers
         if (slidingBlockManager == null) { Debug.Log("No Sliding Block Manager assigned to GSM!"); }
+
+        // Make the onscreen exit buttons do something xd
+        foreach(Button b in puzzleExitButtons)
+        {
+            b.onClick.AddListener(delegate { SetGameState(GameStates.OVERWORLD); });
+        }
 
         SetUpAllPuzzles();
     }
@@ -130,6 +137,12 @@ public class GameStateManager : MonoBehaviour
 
         // FMOD PARAMETER UPDATES - Make sure String Parameters are exactly correct. 
         backgroundMusicEmitter.SetParameter("Time_Elapsed", gameTimerRemaining / GAME_TIMER_SECONDS); // Increments by the inverse of the max timer so that the BGM layers are added correctly.
+
+        // cheating
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    SetGameState(GameStates.GAMEOVER_WIN);
+        //}
     }
 
     public void SetGameState(GameStates _newState)
@@ -142,7 +155,6 @@ public class GameStateManager : MonoBehaviour
                 DeactivateAllGUIs();
                 overworldGUI.SetActive(true);
                 guiJournalPrompt.SetActive(false); // Dont need to show this after the player's already opened and closed the Journal.
-                guiNewCluePrompt.SetActive(false); // Likewise as above.
                 pauseSnapshot.Stop();
                 break;
             case GameStates.PUZZLE:
@@ -157,9 +169,11 @@ public class GameStateManager : MonoBehaviour
             case GameStates.GAMEOVER_WIN:
                 backgroundMusicEmitter.SetParameter("Game_Won", 1);
                 // TODO Wait for a bit then change scenes.
+                StartCoroutine(LoadWinSceneAfterSeconds(5f));
                 break;
             case GameStates.GAMEOVER_LOSE:
-                // Gotta do something else here
+                SceneManager.LoadScene(3);
+                backgroundMusicEmitter.Stop();
                 break;
             default:
                 break;
@@ -196,9 +210,6 @@ public class GameStateManager : MonoBehaviour
         // ---
         // Clue 1: Sliding Block
         // Moved to SlidingBlockPuzzleManager.Start();
-        //Symbol slidingBlockSymbol = doorAnswer[0];
-        //int symbolIndex = (int)slidingBlockSymbol;
-        //slidingBlockManager.ChangePuzzleImage(totalClueImages[symbolIndex]);
 
         // Clue 2: Spinning Circles puzzle.
         // TODO
@@ -222,7 +233,6 @@ public class GameStateManager : MonoBehaviour
         journalClueImages[_clueIndex].color = new Color(1, 1, 1, 1);
 
         // Play a sound effect so the player knows they passed.
-        guiJournalPrompt.SetActive(true);
         puzzlePassEmitter.Play();
     }
 
@@ -261,5 +271,11 @@ public class GameStateManager : MonoBehaviour
                 Debug.Log("Trying to launch a puzzle with incompatible index.");
                 break;
         }
+    }
+
+    IEnumerator LoadWinSceneAfterSeconds(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(2);
     }
 }
