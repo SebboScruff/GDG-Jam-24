@@ -10,7 +10,6 @@ using UnityEngine;
 public class PauseMenuController : MonoBehaviour
 {
     // Input Checks.
-    private bool PressedPause() => Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab);
     private bool PressedLeft() => Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.LeftArrow); // If people don't want to use the buttons
     private bool PressedRight() => Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.RightArrow); // If people don't want to use the buttons
 
@@ -25,30 +24,19 @@ public class PauseMenuController : MonoBehaviour
     /// </summary>
     [Header("Pause Screen Game Objects")]
     [SerializeField] GameObject pauseMenuObject;
-    [SerializeField] List<GameObject> pauseScreenParentObjects = new List<GameObject>(); // Assign in Inspector. Ensure List Indices are the same as in Enum PauseMenuScreens
+    [SerializeField] List<GameObject> pauseScreenParentObjects = new List<GameObject>(); // Assign in Inspector. Ensure List Indices are the same as in Enum PauseMenuScreens (below)
+    private enum PauseMenuScreens
+    {
+        MINIMAP,    // 0
+        CLUES,      // 1
+        SETTINGS    // 2
+    }
+    private PauseMenuScreens currentScreen;
 
     private void Update()
     {
-        // Check for pause toggling first before other inputs.
-        // May need to adjust timescale here as well if we ever have any projectiles.
-        if (PressedPause())
-        {
-            isGamePaused = !isGamePaused;
-            if (isGamePaused)
-            {
-                Debug.Log("Game is Paused.");
-                pauseMenuObject.SetActive(true);
-            }
-            else
-            {
-                Debug.Log("Game is Unpaused.");
-                pauseMenuObject.SetActive(false);
-            }
-            Debug.Log("Pause Pressed.");
-        }
-
         // Additional controls without needing on-screen buttons.
-        else if (PressedLeft())
+        if (PressedLeft())
         {
             PreviousPage();
         }
@@ -57,14 +45,6 @@ public class PauseMenuController : MonoBehaviour
             NextPage();
         }
     }
-
-    private enum PauseMenuScreens
-    {
-        MINIMAP,    // 0
-        CLUES,      // 1
-        SETTINGS    // 2
-    }
-    private PauseMenuScreens currentScreen;
 
     /// <summary> Assigned to The Right-facing arrow button on the menu. Iterates through menu screens. </summary>
     public void NextPage()
