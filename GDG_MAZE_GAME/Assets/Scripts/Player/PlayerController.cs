@@ -265,13 +265,13 @@ public class PlayerController : MonoBehaviour
         if (hitTile)
         {
             currentFacingTile = hitTile.transform.gameObject;
-            interactButtonPrompt.enabled = true;
+            interactButtonPrompt.gameObject.SetActive(true);
             return true;
         }
         else
         {
             currentFacingTile = null;
-            interactButtonPrompt.enabled = false;
+            interactButtonPrompt.gameObject.SetActive(false);
             return false;
         }
     }

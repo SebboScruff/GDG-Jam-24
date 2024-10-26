@@ -1212,6 +1212,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MasterGUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3276815152398824627, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5962822702873422474, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1300,10 +1304,6 @@ PrefabInstance:
       propertyPath: gameStateManager
       value: 
       objectReference: {fileID: 814829163}
-    - target: {fileID: 7577084947680296819, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -95017,6 +95017,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1162720591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3276815152398824627, guid: bdc50dff41b522c4d9854468ff675241, type: 3}
+  m_PrefabInstance: {fileID: 618360469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1188484008
 GameObject:
   m_ObjectHideFlags: 0
@@ -95391,6 +95396,16 @@ Tilemap:
   m_GameObject: {fileID: 1350131957}
   m_Enabled: 1
   m_Tiles:
+  - first: {x: -1, y: -5, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 0
+      m_TileSpriteIndex: 7
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 32, y: -1, z: 0}
     second:
       serializedVersion: 2
@@ -95403,7 +95418,7 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 9283bd10f28c1b64fac40917c92a17c2, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -95434,10 +95449,10 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 642111404, guid: 15d944591dccd35438b0cd82e2ea7a7c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data:
       e00: 1
       e01: 0
@@ -95456,13 +95471,13 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -59, y: -4, z: 0}
-  m_Size: {x: 95, y: 86, z: 1}
+  m_Origin: {x: -59, y: -5, z: 0}
+  m_Size: {x: 95, y: 87, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -131723,6 +131738,10 @@ PrefabInstance:
       propertyPath: guiJournalPrompt
       value: 
       objectReference: {fileID: 2050310421}
+    - target: {fileID: 5852541325690893722, guid: e676f9f2dfd69c04d9751b8200817b60, type: 3}
+      propertyPath: guiNewCluePrompt
+      value: 
+      objectReference: {fileID: 1162720591}
     - target: {fileID: 5852541325690893722, guid: e676f9f2dfd69c04d9751b8200817b60, type: 3}
       propertyPath: slidingPuzzleGUI
       value: 

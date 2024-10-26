@@ -35,7 +35,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] GameObject overworldGUI, pauseGUI, doorGUI, slidingPuzzleGUI; // Ensure that all of these are included in DeactivateAllGUIs()
     [SerializeField] public Sprite[] totalClueImages = new Sprite[6];    // Need to be in the same order as the Symbols array. Index 0 doesn't matter since that represents Symbol.NONE
     [SerializeField] Image[] journalClueImages = new Image[DOOR_ANSWER_LENGTH];
-    [SerializeField] GameObject guiJournalPrompt;
+    [SerializeField] GameObject guiJournalPrompt, guiNewCluePrompt;
 
     [Header("Audio")]
     // Make sure these are on different objects - things tend to go wrong if one gameobject has more than 1 FMOD event emitter
@@ -142,6 +142,7 @@ public class GameStateManager : MonoBehaviour
                 DeactivateAllGUIs();
                 overworldGUI.SetActive(true);
                 guiJournalPrompt.SetActive(false); // Dont need to show this after the player's already opened and closed the Journal.
+                guiNewCluePrompt.SetActive(false); // Likewise as above.
                 pauseSnapshot.Stop();
                 break;
             case GameStates.PUZZLE:
@@ -221,6 +222,7 @@ public class GameStateManager : MonoBehaviour
         journalClueImages[_clueIndex].color = new Color(1, 1, 1, 1);
 
         // Play a sound effect so the player knows they passed.
+        guiJournalPrompt.SetActive(true);
         puzzlePassEmitter.Play();
     }
 
