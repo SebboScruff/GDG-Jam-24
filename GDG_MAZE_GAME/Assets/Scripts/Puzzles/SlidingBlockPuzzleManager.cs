@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using DG.Tweening;
 
 /// <summary>
 /// Contains algorithm for the 15 puzzle game and view code for moving 
@@ -26,6 +27,9 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     /// <summary> Provides access to block positions in the 2D array. </summary>
     private Dictionary<int, int[]> blockPositions;
 
+    [SerializeField]
+    private float tileMovementDuration = 0.4f;
+
     [Header("Component References")]
     [SerializeField]
     private Transform blocksParent;
@@ -35,6 +39,22 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     private float halfBlockSize;
     private float blockPadding;
 
+    /// <summary> Is both the delay and duration of pieces that are moved during the initial shuffle. </summary>
+    [Header("Starting Shuffle Options")]
+    private float shuffleMoveDelay = 0.1f;
+    /// <summary> How many times to shuffle the puzzle when it starts. </summary>
+    private int shuffleMovesAmount = 20;
+    /// <summary>
+    /// What was the last grid position that was clicked programmatically 
+    /// during starting shuffle. Prevents moving the same piece back and forth.
+    /// </summary>
+    private int[] lastMovedShufflePosition = { -1, -1 };
+    /// <summary>
+    /// What was the last tile index that was clicked programmatically 
+    /// during starting shuffle.Prevents moving the same piece back and forth.
+    /// </summary>
+    private int lastMovedShuffleTileIndex = -1;
+
 
     // State for the empty block which makes it easier for other blocks to compare their position to it.
     /// <summary> On what row the empty block is in? Zero indexed. </summary>
@@ -42,10 +62,89 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     private int emptyRow = 3;
     /// <summary> On what column the empty block is in? Zero indexed. </summary>
     private int emptyColumn = 3;
+    /// <summary> Where the empty piece is in the grid. </summary>
+    private int[] emptyXY = { -1, -1 };
+    /// <summary>
+    /// If isMovingAllowed is false the tiles are unresponsive when clicked. 
+    /// This is false during starting shuffle and when pieces are moving.
+    /// </summary>
+    private bool isMovingAllowed = false;
+    // Shuffling
+    /// <summary> What row was last shuffled. </summary>
+    private int lastShuffledRow = -1;
+    /// <summary> What column was last shuffled. </summary>
+    private int lastShuffledColumn = -1;
 
-    void Start()
+    private void Start()
     {
         SetupBlocks();
+        BeginGame();
+    }
+
+    public void BeginGame()
+    {
+        for (int i = 0; i < shuffleMovesAmount; i++)
+        {
+            Invoke(nameof(ShuffleNearestUnvisited), i * shuffleMoveDelay);
+        }
+    }
+
+    private void ShuffleNearestUnvisited()
+    {
+        var validSlots = new List<int[]>();
+
+        // look all directions and add to list if possible
+        if (emptyColumn != 0) // Add left side slots
+        {
+            validSlots.Add(new int[] { emptyRow, emptyColumn - 1 });
+        }
+        if (emptyColumn != gridSize - 1)
+        {
+            validSlots.Add(new int[] { emptyRow, emptyColumn + 1 });
+        }
+        if (emptyRow != 0)
+        {
+            validSlots.Add(new int[] { emptyRow - 1, emptyColumn });
+        }
+        if (emptyRow != gridSize - 1)
+        {
+            validSlots.Add(new int[] { emptyRow + 1, emptyColumn });
+        }
+
+        var whileCount = 0;
+        var randResult = new int[] { };
+        do
+        {
+            randResult = validSlots[Random.Range(0, validSlots.Count)];
+            whileCount++;
+            if (whileCount == 100)
+            {
+                break;
+            }
+        }
+        while (randResult.Equals(emptyXY));
+
+        // Update new empty tile position values
+        //emptyXY = (int[])randResult.Clone();
+        //emptyRow = emptyXY[0];
+        //emptyColumn = emptyXY[1];
+        lastShuffledRow = randResult.First();
+        lastShuffledColumn = randResult.Last();
+
+        MoveTile(blocks[randResult.First(), randResult.Last()], randResult, shuffleMoveDelay);
+    }
+
+    private void MoveTile(int index, int[] tileGridPos, float speed)
+    {
+        Vector3 emptyPos = blockTransforms[15].position;
+        Vector3 tilePos = blockTransforms[index].position;
+
+        blockTransforms[index].DOMove(emptyPos, speed);
+        blockTransforms[15].position = tilePos;
+
+        emptyXY = tileGridPos;
+        emptyRow = emptyXY[0];
+        emptyColumn = emptyXY[1];
     }
 
     private void SetupBlocks()
@@ -107,11 +206,10 @@ public class SlidingBlockPuzzleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Button command for gameplay or simulates gameplay when shuffling.
+    /// Button command, basically OnTileInteracted, for gameplay shuffling.
     /// </summary>
     /// <param name="index">What block to move.</param>
-    /// <param name="instantly">Should the movement be instant or animated.</param>
-    private void MoveBlockToNearbyEmpty(int index, bool instantly)
+    private void MoveBlockToNearbyEmpty(int index)
     {
         // todo early return if too far
     }
