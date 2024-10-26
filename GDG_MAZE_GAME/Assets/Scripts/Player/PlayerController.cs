@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject currentFacingTile; // Which interactible tile is the player currently facing? TODO Eventually change this to puzzle class rather than gameobject?
     public UnityEngine.UI.Image interactButtonPrompt; // Visual aid to let players know when they can interact with a tile.
 
+    [SerializeField] GameObject guiMovePrompt;
+
     /// <summary>
     /// After movement has happened how long to wait before playing footstep 
     /// sound. Negative number means that playing sound is started before 
@@ -76,6 +78,8 @@ public class PlayerController : MonoBehaviour
         // catch movement input
         if (PressedUp())
         {
+            guiMovePrompt.SetActive(false); // Basically, the first time the player moves up, the tutorial visual will disappear.
+
             animController.SetFacingDirection(Direction.Up); // Set Direction for the animation controller. One per direction. -Seb
             currentFacingDir = Direction.Up;
 
@@ -148,17 +152,21 @@ public class PlayerController : MonoBehaviour
             {
                 case "Door":
                     Debug.Log("Starting Door Puzzle...");
-                    gameStateManager.StartDoorPuzzle();
+                    gameStateManager.LaunchPuzzleGUI(3);
                     break;
                 case "15-Tile":
                     Debug.Log("Starting 15-Tile Puzzle...");
+                    gameStateManager.LaunchPuzzleGUI(0);
                     break;
                 case "CirclePuzzle":
                     Debug.Log("Starting Circle Puzzle...");
+                    gameStateManager.LaunchPuzzleGUI(1);
                     break;
                 case "SearchPuzzle":
                     Debug.Log("Starting Search Puzzle...");
+                    gameStateManager.LaunchPuzzleGUI(2);
                     break;
+
                 case "Untagged":
                     Debug.Log("Interacting with untagged tile! Make sure tiles are correctly tagged.");
                     break;
@@ -257,13 +265,13 @@ public class PlayerController : MonoBehaviour
         if (hitTile)
         {
             currentFacingTile = hitTile.transform.gameObject;
-            interactButtonPrompt.enabled = true;
+            interactButtonPrompt.gameObject.SetActive(true);
             return true;
         }
         else
         {
             currentFacingTile = null;
-            interactButtonPrompt.enabled = false;
+            interactButtonPrompt.gameObject.SetActive(false);
             return false;
         }
     }

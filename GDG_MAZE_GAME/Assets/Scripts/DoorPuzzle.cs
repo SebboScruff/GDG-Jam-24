@@ -114,7 +114,7 @@ public class DoorPuzzle : MonoBehaviour
             {
                 // TODO Some kind of message to the player to let them know they died a horrible death deep in the maze
                 Debug.Log("Wrong Answer!");
-                //ExitPuzzle();
+                gameStateManager.SetGameState(GameStateManager.GameStates.GAMEOVER_LOSE);
                 return; // if the answer is incorrect, exit out of the Submit method AND the puzzle (and probably kill the player)
             }
             correctAnswers++;
