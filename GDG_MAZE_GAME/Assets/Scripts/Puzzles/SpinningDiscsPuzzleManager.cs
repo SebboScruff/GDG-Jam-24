@@ -84,4 +84,13 @@ public class SpinningDiscsPuzzleManager : MonoBehaviour
         gameStateManager?.AddClueToJournal(0);
         gameStateManager?.SetGameState(GameStateManager.GameStates.OVERWORLD);
     }
+
+    public void ChangePuzzleImage(Sprite sprite)
+    {
+        Debug.Log("Changing Spinning Disc Image to " + sprite.name);
+
+        circleInner.GetComponent<Image>().sprite = sprite;
+        circleMiddle.GetComponent<Image>().sprite = sprite;
+        circleOuter.GetComponent<Image>().sprite = sprite;
+    }
 }
