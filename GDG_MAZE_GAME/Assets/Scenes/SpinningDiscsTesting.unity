@@ -1783,50 +1783,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 638022104}
     m_Modifications:
-    - target: {fileID: 2057739078738155872, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_UseSpriteMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3085796843589122743, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3085796843589122743, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3160433158038458246, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3160433158038458246, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063758354308328889, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4063758354308328889, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459308790040245268, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_UseSpriteMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6285702596999144235, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6285702596999144235, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7344691746370121409, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
-      propertyPath: m_UseSpriteMesh
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8034254263246083263, guid: 3fdaf2e99f4664e47b6b70009e481f77, type: 3}
       propertyPath: m_Name
       value: SpinningDiscsPuzzle
